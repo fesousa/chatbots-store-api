@@ -159,6 +159,44 @@ Resources:
             Method: get
             RestApiId:
               Ref: ApiGatewayWatson
+  LambdaGetProductsPrice:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: store-get-products-price-api #nome da função
+      Handler: main.handler # nome do arquivo e método de onde está a função
+      Runtime: python3.8 # ambiente de execução
+      CodeUri: ./app/getProductsPrice # local onde estarão os arquivos da função
+      Description: API add cart
+      MemorySize: 128 # memória utilizada pela funçãop
+      Timeout: 30 # tempo máximo de execução, em segundos
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole # IAM role da função para permissões a outros recursos da AWS
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /getProductsPrice
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayWatson
+  LambdaSendConfirm:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: store-send-confirm-api #nome da função
+      Handler: main.handler # nome do arquivo e método de onde está a função
+      Runtime: python3.8 # ambiente de execução
+      CodeUri: ./app/sendConfirm # local onde estarão os arquivos da função
+      Description: API send confirm
+      MemorySize: 128 # memória utilizada pela funçãop
+      Timeout: 30 # tempo máximo de execução, em segundos
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole # IAM role da função para permissões a outros recursos da AWS
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /sendConfirm
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayWatson
 
 Outputs:
   APIGatewayURL:

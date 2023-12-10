@@ -33,8 +33,15 @@ def handler(event, context):
     print(event)
     q = event['queryStringParameters']['categoria']
     
-   
-    produtos = produtos_categorias[q]
+    dynamodb = boto3.resource('dynamodb')
+    products = dynamodb.Table('products')
+    p = products.scan(
+        FilterExpression=Attr('category').eq(q)
+    )
+    print(p)
+    
+    #produtos = produtos_categorias[q]
+    produtos = p['Items']
     #retornar informações no campo info, no formato JSON
     return {'statusCode': 200, "body":json.dumps({'produtos':produtos}, cls=DecimalEncoder), "headers": {
         "Access-Control-Allow-Origin": "*",

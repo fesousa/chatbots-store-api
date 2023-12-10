@@ -51,7 +51,7 @@ def handler(event, context):
             session.starttls()
             session.login(u, g)
             text = message.as_string()
-            session.sendmail(u, req['email'], text)
+            session.sendmail(u, response['Item']['email'], text)
             session.quit()
             
             r = {"mensagem": "Código de acesso enviado por e-mail", "status": "OK"}

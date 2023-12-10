@@ -64,6 +64,10 @@
                                           }
                                       }
                                   }
+                               },
+                               "total":{
+                                  "type":"integer",
+                                  "description":"total do carrinho"
                                }
                             }
                          }
@@ -126,6 +130,58 @@
                                   "description":"produtos",
                                   "items": {
                                     "type": "string"
+                                  }
+                               }
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       },
+       "/api/getProductsPrice":{
+          "get":{
+             "summary":"Retorna produtos",
+             "parameters":[
+                {
+                   "name":"categoria",
+                   "in":"query",
+                   "description":"categoria de produtos",
+                   "required":true,
+                   "schema":{
+                      "type":"string"
+                   }
+                }
+             ],
+             "responses":{
+                "200":{
+                   "description":"Sucesso",
+                   "content":{
+                      "application/json":{
+                         "schema":{
+                            "type":"object",
+                            "properties":{
+                               "produtos":{
+                                  "type":"array",
+                                  "description":"produtos",
+                                  "items": {
+                                      "type":"object",
+                                      "description":"produto",
+                                      "properties":{
+                                          "price":{
+                                              "type":"integer",
+                                              "description":"valor do produto"
+                                          },
+                                          "category": {
+                                              "type":"string",
+                                              "description":"categoria do produto"
+                                          },
+                                          "product": {
+                                              "type":"string",
+                                              "description":"nome do produto"
+                                          }
+                                      }
                                   }
                                }
                             }

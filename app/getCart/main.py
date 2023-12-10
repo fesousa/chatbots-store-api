@@ -12,6 +12,7 @@ from botocore.exceptions import ClientError
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from boto3.dynamodb.conditions import Key, Attr
 
 class DecimalEncoder(json.JSONEncoder):
   def default(self, obj):
@@ -27,6 +28,7 @@ def handler(event, context):
     
     dynamodb = boto3.resource('dynamodb')
     cart = dynamodb.Table('cart')
+    produtos = dynamodb.Table('products')
     
     cart_items = cart.get_item(
             Key={'email': req['email'], 'cart':req['cart']})
@@ -34,9 +36,17 @@ def handler(event, context):
     products = cart_items['Item'].get('products',[])
     print(products)
     
+    t = 0
+    for p in products:
+      prod = produtos.query(
+        KeyConditionExpression=Key('product').eq(p['item']))
+      print(prod)
+        
+      t = t + prod['Items'][0]['price']*p['q']
+    
    
     
-    return {'statusCode': 200, "body":json.dumps({'status':'OK', 'produtos':products}, cls=DecimalEncoder), "headers": {
+    return {'statusCode': 200, "body":json.dumps({'status':'OK', 'produtos':products, 'total': t}, cls=DecimalEncoder), "headers": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "OPTIONS,POST"}}
     
