@@ -1,0 +1,321 @@
+{
+    "openapi":"3.0.0",
+    "info":{
+       "title":"API Watoson",
+       "version":"1.0.0",
+       "description":"Exemplo de API para integração com Watson."
+    },
+    "servers":[
+       {
+          "url":"https://ul4cdsqloc.execute-api.us-east-1.amazonaws.com",
+          "description":"Servidor de desenvolvimento"
+       }
+    ],
+    "paths":{
+       "/api/getCart":{
+          "get":{
+             "summary":"Retorna carrinho",
+             "parameters":[
+                {
+                   "name":"email",
+                   "in":"query",
+                   "description":"email do usuário",
+                   "required":true,
+                   "schema":{
+                      "type":"string"
+                   }
+                },
+                {
+                   "name":"cart",
+                   "in":"query",
+                   "description":"chave do carrinho",
+                   "required":true,
+                   "schema":{
+                      "type":"string"
+                   }
+                }
+             ],
+             "responses":{
+                "200":{
+                   "description":"Sucesso",
+                   "content":{
+                      "application/json":{
+                         "schema":{
+                            "type":"object",
+                            "properties":{
+                               "status":{
+                                  "type":"string",
+                                  "description":"status da operação"
+                               },
+                               "produtos":{
+                                  "type":"array",
+                                  "description":"produtos do carrinho",
+                                  "items": {
+                                      "type":"object",
+                                      "description":"produto",
+                                      "properties":{
+                                          "q":{
+                                              "type":"integer",
+                                              "description":"quantidade do produto"
+                                          },
+                                          "item": {
+                                              "type":"string",
+                                              "description":"nome do produto"
+                                          }
+                                      }
+                                  }
+                               }
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       },
+       "/api/getCategories":{
+          "get":{
+             "summary":"Retorna categorias",
+             "responses":{
+                "200":{
+                   "description":"Sucesso",
+                   "content":{
+                      "application/json":{
+                         "schema":{
+                            "type":"object",
+                            "properties":{
+                               "categorias":{
+                                  "type":"array",
+                                  "description":"categorias",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                               }
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       },
+       "/api/getProducts":{
+          "get":{
+             "summary":"Retorna produtos",
+             "parameters":[
+                {
+                   "name":"categoria",
+                   "in":"query",
+                   "description":"categoria de produtos",
+                   "required":true,
+                   "schema":{
+                      "type":"string"
+                   }
+                }
+             ],
+             "responses":{
+                "200":{
+                   "description":"Sucesso",
+                   "content":{
+                      "application/json":{
+                         "schema":{
+                            "type":"object",
+                            "properties":{
+                               "produtos":{
+                                  "type":"array",
+                                  "description":"produtos",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                               }
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       },
+       "/api/checkUser":{
+          "post":{
+             "summary":"Verificar e-mail do usuário",
+             "requestBody":{
+                "required":true,
+                "content":{
+                   "application/json":{
+                      "schema":{
+                         "type":"object",
+                         "properties":{
+                            "email":{
+                               "type":"string",
+                               "description":"email do usuário"
+                            }
+                         }
+                      }
+                   }
+                }
+             },
+             "responses":{
+                "200":{
+                   "description":"Sucesso",
+                   "content":{
+                      "application/json":{
+                         "schema":{
+                            "type":"object",
+                            "properties":{
+                               "mensagem":{
+                                  "type":"string",
+                                  "description":"mensagem de retorno"
+                               },
+                               "status":{
+                                  "type":"string",
+                                  "description":"status de retorno"
+                               }
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       },
+       "/api/checkToken":{
+          "post":{
+             "summary":"Verificar e-mail do usuário",
+             "requestBody":{
+                "required":true,
+                "content":{
+                   "application/json":{
+                      "schema":{
+                         "type":"object",
+                         "properties":{
+                            "email":{
+                               "type":"string",
+                               "description":"email do usuário"
+                            },
+                            "token":{
+                               "type":"string",
+                               "description":"token de acesso"
+                            }
+                         }
+                      }
+                   }
+                }
+             },
+             "responses":{
+                "200":{
+                   "description":"Sucesso",
+                   "content":{
+                      "application/json":{
+                         "schema":{
+                            "type":"object",
+                            "properties":{
+                               "mensagem":{
+                                  "type":"string",
+                                  "description":"mensagem de retorno"
+                               },
+                               "status":{
+                                  "type":"string",
+                                  "description":"status de retorno"
+                               }
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       },
+       "/api/initCart":{
+          "post":{
+             "summary":"Verificar e-mail do usuário",
+             "requestBody":{
+                "required":true,
+                "content":{
+                   "application/json":{
+                      "schema":{
+                         "type":"object",
+                         "properties":{
+                            "email":{
+                               "type":"string",
+                               "description":"email do usuário"
+                            }
+                         }
+                      }
+                   }
+                }
+             },
+             "responses":{
+                "200":{
+                   "description":"Sucesso",
+                   "content":{
+                      "application/json":{
+                         "schema":{
+                            "type":"object",
+                            "properties":{
+                               "cart":{
+                                  "type":"string",
+                                  "description":"chave do carrinho"
+                               }
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       },
+       "/api/addCart":{
+          "post":{
+             "summary":"Verificar e-mail do usuário",
+             "requestBody":{
+                "required":true,
+                "content":{
+                   "application/json":{
+                      "schema":{
+                         "type":"object",
+                         "properties":{
+                            "email":{
+                               "type":"string",
+                               "description":"email do usuário"
+                            },
+                            "cart":{
+                               "type":"string",
+                               "description":"chave do carrinho"
+                            },
+                            "item":{
+                               "type":"string",
+                               "description":"item"
+                            },
+                            "q":{
+                               "type":"integer",
+                               "description":"quantidade do produto"
+                            }
+                            
+                         }
+                      }
+                   }
+                }
+             },
+             "responses":{
+                "200":{
+                   "description":"Sucesso",
+                   "content":{
+                      "application/json":{
+                         "schema":{
+                            "type":"object",
+                            "properties":{
+                               "status":{
+                                  "type":"string",
+                                  "description":"status da operação"
+                               }
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       }
+    }
+ }

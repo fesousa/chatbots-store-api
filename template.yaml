@@ -1,0 +1,166 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: API para integração com Watson Assistant - Loja
+Parameters:
+  UserMail:
+    Type: String
+  PwdMail:
+    Type: String
+  ServerMail:
+    Type: String
+  PortMail:
+    Type: Number
+Globals:
+  Function:
+    Environment:
+      Variables:
+        USERMAIL: !Sub ${UserMail}
+        PWDMAIL: !Sub ${PwdMail}
+        SERVERMAIL: !Sub ${ServerMail}
+        PORTMAIL: !Sub ${PortMail}
+Resources:
+  # Bucket para aplicação estática com JS  
+  ApiGatewayWatson:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: api
+      OpenApiVersion: '2.0'
+  # Função lambda para executar o código da API
+  LambdaEmail:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: store-check-user-api #nome da função
+      Handler: main.handler # nome do arquivo e método de onde está a função
+      Runtime: python3.8 # ambiente de execução
+      CodeUri: ./app/checkUser # local onde estarão os arquivos da função
+      Description: API check user
+      MemorySize: 128 # memória utilizada pela funçãop
+      Timeout: 30 # tempo máximo de execução, em segundos
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole # IAM role da função para permissões a outros recursos da AWS
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /checkUser
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayWatson
+  LambdaToken:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: store-check-token-api #nome da função
+      Handler: main.handler # nome do arquivo e método de onde está a função
+      Runtime: python3.8 # ambiente de execução
+      CodeUri: ./app/checkToken # local onde estarão os arquivos da função
+      Description: API check token
+      MemorySize: 128 # memória utilizada pela funçãop
+      Timeout: 30 # tempo máximo de execução, em segundos
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole # IAM role da função para permissões a outros recursos da AWS
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /checkToken
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayWatson
+  LambdaInitCart:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: store-init-cart-api #nome da função
+      Handler: main.handler # nome do arquivo e método de onde está a função
+      Runtime: python3.8 # ambiente de execução
+      CodeUri: ./app/initCart # local onde estarão os arquivos da função
+      Description: API init cart
+      MemorySize: 128 # memória utilizada pela funçãop
+      Timeout: 30 # tempo máximo de execução, em segundos
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole # IAM role da função para permissões a outros recursos da AWS
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /initCart
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayWatson
+  LambdaAddCart:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: store-add-cart-api #nome da função
+      Handler: main.handler # nome do arquivo e método de onde está a função
+      Runtime: python3.8 # ambiente de execução
+      CodeUri: ./app/addCart # local onde estarão os arquivos da função
+      Description: API add cart
+      MemorySize: 128 # memória utilizada pela funçãop
+      Timeout: 30 # tempo máximo de execução, em segundos
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole # IAM role da função para permissões a outros recursos da AWS
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /addCart
+            Method: post
+            RestApiId:
+              Ref: ApiGatewayWatson
+  LambdaGetCart:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: store-get-cart-api #nome da função
+      Handler: main.handler # nome do arquivo e método de onde está a função
+      Runtime: python3.8 # ambiente de execução
+      CodeUri: ./app/getCart # local onde estarão os arquivos da função
+      Description: API add cart
+      MemorySize: 128 # memória utilizada pela funçãop
+      Timeout: 30 # tempo máximo de execução, em segundos
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole # IAM role da função para permissões a outros recursos da AWS
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /getCart
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayWatson
+  LambdaGetCategories:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: store-get-categories-api #nome da função
+      Handler: main.handler # nome do arquivo e método de onde está a função
+      Runtime: python3.8 # ambiente de execução
+      CodeUri: ./app/getCategories # local onde estarão os arquivos da função
+      Description: API add cart
+      MemorySize: 128 # memória utilizada pela funçãop
+      Timeout: 30 # tempo máximo de execução, em segundos
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole # IAM role da função para permissões a outros recursos da AWS
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /getCategories
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayWatson
+  LambdaGetProducts:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      FunctionName: store-get-products-api #nome da função
+      Handler: main.handler # nome do arquivo e método de onde está a função
+      Runtime: python3.8 # ambiente de execução
+      CodeUri: ./app/getProducts # local onde estarão os arquivos da função
+      Description: API add cart
+      MemorySize: 128 # memória utilizada pela funçãop
+      Timeout: 30 # tempo máximo de execução, em segundos
+      Role: !Sub arn:aws:iam::${AWS::AccountId}:role/LabRole # IAM role da função para permissões a outros recursos da AWS
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /getProducts
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayWatson
+
+Outputs:
+  APIGatewayURL:
+    Description: URL das APIs
+    Value: !Sub "https://${ApiGatewayWatson}.execute-api.${AWS::Region}.amazonaws.com/api/"
