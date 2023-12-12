@@ -372,6 +372,49 @@
                 }
              }
           }
-       }
+       },
+       "/api/sendConfirm":{
+          "post":{
+             "summary":"Enviar email de confirmação",
+             "requestBody":{
+                "required":true,
+                "content":{
+                   "application/json":{
+                      "schema":{
+                         "type":"object",
+                         "properties":{
+                            "email":{
+                               "type":"string",
+                               "description":"email do usuário"
+                            }
+                         }
+                      }
+                   }
+                }
+             },
+             "responses":{
+                "200":{
+                   "description":"Sucesso",
+                   "content":{
+                      "application/json":{
+                         "schema":{
+                            "type":"object",
+                            "properties":{
+                               "mensagem":{
+                                  "type":"string",
+                                  "description":"mensagem de retorno"
+                               },
+                               "status":{
+                                  "type":"string",
+                                  "description":"status de retorno"
+                               }
+                            }
+                         }
+                      }
+                   }
+                }
+             }
+          }
+       },
     }
  }
